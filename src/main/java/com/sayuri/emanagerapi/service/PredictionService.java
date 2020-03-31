@@ -1,6 +1,7 @@
 package com.sayuri.emanagerapi.service;
 
 import com.sayuri.emanagerapi.model.Prediction;
+import com.sayuri.emanagerapi.model.PredictionItem;
 import com.sayuri.emanagerapi.repository.PredictionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -20,21 +21,24 @@ public class PredictionService {
 
     private String predictionAPI = "https://e-manager-model.herokuapp.com/predict";
 
-    public List<Prediction> getPrediction(String frequency, int duration){
+    public Prediction getPrediction(String frequency, int duration){
 
-        List<Prediction> predictionList = makeAPICall(frequency, duration);
+        List<PredictionItem> predictionItemList = makeAPICall(frequency, duration);
 
-        if(predictionList.size() > 0){
-            int predictionSeq = repo.getNextPredictionSeq();
-            predictionList.stream().forEach(prediction -> prediction.setPredictionSeq(predictionSeq));
+        if(predictionItemList.size() > 0){
+//            predictionItemList.stream().forEach(predictionItem -> predictionItem.setPrediction(predictionSeq));
+            Prediction prediction = new Prediction();
+            prediction.setFrequency(frequency);
+            prediction.setDuration(duration);
+            prediction.setPredictionItems(predictionItemList);
 
-            return repo.saveAll(predictionList);
+            return repo.save(prediction);
         }
 
         return null;
     }
 
-    private List<Prediction> makeAPICall(String frequency, int duration){
+    private List<PredictionItem> makeAPICall(String frequency, int duration){
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -50,14 +54,14 @@ public class PredictionService {
         // build the request
         HttpEntity<Map<String, Object>> entity = new HttpEntity<>(request, headers);
 
-        ResponseEntity<Prediction[]> consumptionPredictionResponse =
-                restTemplate.postForEntity(predictionAPI, entity, Prediction[].class);
+        ResponseEntity<PredictionItem[]> consumptionPredictionResponse =
+                restTemplate.postForEntity(predictionAPI, entity, PredictionItem[].class);
 
         if (!consumptionPredictionResponse.getStatusCode().is2xxSuccessful()) {
             return null;
         }
 
-        Prediction[] predictions = consumptionPredictionResponse.getBody();
-        return Arrays.asList(predictions);
+        PredictionItem[] predictionItems = consumptionPredictionResponse.getBody();
+        return Arrays.asList(predictionItems);
     }
 }

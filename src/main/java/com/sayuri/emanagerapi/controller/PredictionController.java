@@ -46,7 +46,7 @@ public class PredictionController {
 
     @PostMapping("/predict")
     public ResponseEntity<?> predict(@RequestBody PredictionForm predictionForm) {
-        List<Prediction> predictions = service.getPrediction(predictionForm.getFrequency(), predictionForm.getDuration());
-        return new ResponseEntity<>(predictions, HttpStatus.OK);
+        Prediction prediction = service.getPrediction(predictionForm.getFrequency(), predictionForm.getDuration());
+        return new ResponseEntity<>(prediction, HttpStatus.OK);
     }
 }

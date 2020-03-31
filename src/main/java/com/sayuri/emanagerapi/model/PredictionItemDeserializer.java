@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 
-public class PredictionDeserializer extends JsonDeserializer<Prediction> {
+public class PredictionItemDeserializer extends JsonDeserializer<PredictionItem> {
     @Override
-    public Prediction deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public PredictionItem deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 
         JsonNode node = p.getCodec().readTree(p);
 
@@ -18,13 +18,13 @@ public class PredictionDeserializer extends JsonDeserializer<Prediction> {
         double consumptionLower = node.get("Consumption_lower").doubleValue();
         double consumption = node.get("Consumption").doubleValue();
         double consumptionUpper = node.get("Consumption_upper").doubleValue();
+        
+        PredictionItem predictionItem = new PredictionItem();
+        predictionItem.setConsumptionDate(consumptionDate);
+        predictionItem.setConsumptionLower(consumptionLower);
+        predictionItem.setConsumption(consumption);
+        predictionItem.setConsumptionUpper(consumptionUpper);
 
-        Prediction prediction = new Prediction();
-        prediction.setConsumptionDate(consumptionDate);
-        prediction.setConsumptionLower(consumptionLower);
-        prediction.setConsumption(consumption);
-        prediction.setConsumptionUpper(consumptionUpper);
-
-        return prediction;
+        return predictionItem;
     }
 }

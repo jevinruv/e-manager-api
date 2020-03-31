@@ -1,29 +1,27 @@
 package com.sayuri.emanagerapi.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@JsonDeserialize(using = PredictionDeserializer.class)
 public class Prediction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private double consumption;
-    private double consumptionLower;
-    private double consumptionUpper;
-    private String consumptionDate;
-    private int predictionSeq;
+    private int duration;
+    private String frequency;
+
+    @OneToMany(mappedBy = "prediction", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("prediction")
+    private List<PredictionItem> predictionItems;
 
     @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss", timezone = "Asia/Colombo")
     private Date createdDate;
@@ -40,28 +38,13 @@ public class Prediction {
         this.id = id;
     }
 
-    public double getConsumption() {
-        return consumption;
+    public List<PredictionItem> getPredictionItems() {
+        return predictionItems;
     }
 
-    public void setConsumption(double consumption) {
-        this.consumption = consumption;
-    }
-
-    public double getConsumptionLower() {
-        return consumptionLower;
-    }
-
-    public void setConsumptionLower(double consumptionLower) {
-        this.consumptionLower = consumptionLower;
-    }
-
-    public double getConsumptionUpper() {
-        return consumptionUpper;
-    }
-
-    public void setConsumptionUpper(double consumptionUpper) {
-        this.consumptionUpper = consumptionUpper;
+    public void setPredictionItems(List<PredictionItem> predictionItems) {
+        this.predictionItems = predictionItems;
+        this.predictionItems.forEach(predictionItem -> predictionItem.setPrediction(this));
     }
 
     public Date getCreatedDate() {
@@ -72,20 +55,20 @@ public class Prediction {
         this.createdDate = createdDate;
     }
 
-    public String getConsumptionDate() {
-        return consumptionDate;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setConsumptionDate(String consumptionDate) {
-        this.consumptionDate = consumptionDate;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
-    public int getPredictionSeq() {
-        return predictionSeq;
+    public String getFrequency() {
+        return frequency;
     }
 
-    public void setPredictionSeq(int predictionSeq) {
-        this.predictionSeq = predictionSeq;
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
 
     private Date getDate() {
