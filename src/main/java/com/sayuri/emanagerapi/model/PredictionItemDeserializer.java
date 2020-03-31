@@ -18,7 +18,7 @@ public class PredictionItemDeserializer extends JsonDeserializer<PredictionItem>
         double consumptionLower = node.get("Consumption_lower").doubleValue();
         double consumption = node.get("Consumption").doubleValue();
         double consumptionUpper = node.get("Consumption_upper").doubleValue();
-        
+
         PredictionItem predictionItem = new PredictionItem();
         predictionItem.setConsumptionDate(consumptionDate);
         predictionItem.setConsumptionLower(consumptionLower);
