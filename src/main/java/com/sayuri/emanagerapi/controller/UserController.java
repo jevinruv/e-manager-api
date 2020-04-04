@@ -3,6 +3,7 @@ package com.sayuri.emanagerapi.controller;
 import com.sayuri.emanagerapi.model.User;
 import com.sayuri.emanagerapi.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,25 +15,31 @@ import java.util.Optional;
 public class UserController {
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepo repo;
 
     @GetMapping("/{id}")
     public Optional<User> get(@PathVariable int id) {
-        return userRepo.findById(id);
+        return repo.findById(id);
     }
 
     @GetMapping
     public List<User> getAll() {
-        return userRepo.findAll();
+        return repo.findAll();
     }
 
     @PostMapping
     public User addOrUpdate(@RequestBody User user) {
-        return userRepo.save(user);
+        return repo.save(user);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable int id) {
-        userRepo.deleteById(id);
+        repo.deleteById(id);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user){
+        Optional<User> signedUser = repo.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        return new ResponseEntity<>(signedUser, HttpStatus.OK);
     }
 }
