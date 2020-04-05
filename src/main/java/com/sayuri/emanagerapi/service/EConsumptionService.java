@@ -24,7 +24,7 @@ public class EConsumptionService {
     public EConsumption addOrSave(EConsumption eConsumption){
 
         Calendar cal = Calendar.getInstance();
-        cal.setTime(eConsumption.getComsumptionDate());
+        cal.setTime(eConsumption.getConsumptionDate());
         int weekNo = cal.get(Calendar.WEEK_OF_YEAR);
         eConsumption.setWeekNo(weekNo);
 

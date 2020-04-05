@@ -20,7 +20,7 @@ public class EConsumption {
     private int consumption;
 
     @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Asia/Colombo")
-    private Date comsumptionDate;
+    private Date consumptionDate;
 
     public int getId() {
         return id;
@@ -46,12 +46,12 @@ public class EConsumption {
         this.consumption = consumption;
     }
 
-    public Date getComsumptionDate() {
-        return comsumptionDate;
+    public Date getConsumptionDate() {
+        return consumptionDate;
     }
 
-    public void setComsumptionDate(Date comsumptionDate) {
-        this.comsumptionDate = comsumptionDate;
+    public void setConsumptionDate(Date consumptionDate) {
+        this.consumptionDate = consumptionDate;
     }
 
     private Date getDate() {
