@@ -19,7 +19,7 @@ public class ForumQuestion {
     private String username;
     private String question;
 
-    @OneToMany(mappedBy = "forumQuestion", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "forumQuestion", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("forumQuestion")
     private List<ForumAnswer> forumAnswers;
 

@@ -2,6 +2,7 @@ package com.sayuri.emanagerapi.service;
 
 import com.sayuri.emanagerapi.model.Prediction;
 import com.sayuri.emanagerapi.model.PredictionItem;
+import com.sayuri.emanagerapi.repository.CommonValueRepo;
 import com.sayuri.emanagerapi.repository.PredictionRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -19,6 +20,9 @@ public class PredictionService {
     @Autowired
     private PredictionRepo repo;
 
+    @Autowired
+    private CommonValueRepo commonValueRepo;
+
     private String predictionAPI = "https://e-manager-model.herokuapp.com/predict";
 
     public Prediction getPrediction(String frequency, int duration){
@@ -26,16 +30,27 @@ public class PredictionService {
         List<PredictionItem> predictionItemList = makeAPICall(frequency, duration);
 
         if(predictionItemList.size() > 0){
-//            predictionItemList.stream().forEach(predictionItem -> predictionItem.setPrediction(predictionSeq));
             Prediction prediction = new Prediction();
             prediction.setFrequency(frequency);
             prediction.setDuration(duration);
-            prediction.setPredictionItems(predictionItemList);
+            prediction.setPredictionItems(calculateCost(predictionItemList));
 
             return repo.save(prediction);
         }
 
         return null;
+    }
+
+    private List<PredictionItem> calculateCost(List<PredictionItem> predictionItemList){
+
+        String kWhCostStr = commonValueRepo.findByKey("kWh").get().getValue();
+        double kWhCost = Double.parseDouble(kWhCostStr);
+
+        predictionItemList.stream().forEach(predictionItem ->
+                predictionItem.setConsumptionCost(kWhCost * predictionItem.getConsumption())
+        );
+
+        return predictionItemList;
     }
 
     private List<PredictionItem> makeAPICall(String frequency, int duration){

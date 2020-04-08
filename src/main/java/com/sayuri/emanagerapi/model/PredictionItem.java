@@ -16,6 +16,7 @@ public class PredictionItem {
     private double consumptionLower;
     private double consumptionUpper;
     private String consumptionDate;
+    private double consumptionCost;
 
     @ManyToOne
     @JoinColumn
@@ -68,5 +69,13 @@ public class PredictionItem {
 
     public void setPrediction(Prediction prediction) {
         this.prediction = prediction;
+    }
+
+    public double getConsumptionCost() {
+        return consumptionCost;
+    }
+
+    public void setConsumptionCost(double consumptionCost) {
+        this.consumptionCost = consumptionCost;
     }
 }
