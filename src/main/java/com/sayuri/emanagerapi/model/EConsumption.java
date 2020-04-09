@@ -22,10 +22,10 @@ public class EConsumption {
     private double consumptionPlannedCost;
     private double consumptionActualCost;
 
-    @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Asia/Colombo")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Colombo")
     private Date consumptionDate;
 
-    @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss", timezone = "Asia/Colombo")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Colombo")
     private Date consumptionPlannedDate;
 
     public EConsumption() {
@@ -100,7 +100,7 @@ public class EConsumption {
 
         Date date = new Date();
 
-        DateFormat df = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 //        df.setTimeZone(TimeZone.getTimeZone("Asia/Colombo"));
 
         String strDate = df.format(date);
