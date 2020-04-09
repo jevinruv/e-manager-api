@@ -19,6 +19,8 @@ public class EConsumption {
     private int weekNo;
     private double consumptionPlanned;
     private double consumptionActual;
+    private double consumptionPlannedCost;
+    private double consumptionActualCost;
 
     @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Asia/Colombo")
     private Date consumptionDate;
@@ -76,6 +78,22 @@ public class EConsumption {
 
     public void setConsumptionPlannedDate(Date consumptionPlannedDate) {
         this.consumptionPlannedDate = consumptionPlannedDate;
+    }
+
+    public double getConsumptionPlannedCost() {
+        return consumptionPlannedCost;
+    }
+
+    public void setConsumptionPlannedCost(double consumptionPlannedCost) {
+        this.consumptionPlannedCost = consumptionPlannedCost;
+    }
+
+    public double getConsumptionActualCost() {
+        return consumptionActualCost;
+    }
+
+    public void setConsumptionActualCost(double consumptionActualCost) {
+        this.consumptionActualCost = consumptionActualCost;
     }
 
     private Date getDate() {
