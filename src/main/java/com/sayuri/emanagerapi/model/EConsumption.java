@@ -17,10 +17,18 @@ public class EConsumption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int weekNo;
-    private int consumption;
+    private double consumptionPlanned;
+    private double consumptionActual;
 
     @JsonFormat(pattern = "dd-MM-yyyy", timezone = "Asia/Colombo")
     private Date consumptionDate;
+
+    @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss", timezone = "Asia/Colombo")
+    private Date consumptionPlannedDate;
+
+    public EConsumption() {
+        this.consumptionPlannedDate = this.getDate();
+    }
 
     public int getId() {
         return id;
@@ -38,12 +46,20 @@ public class EConsumption {
         this.weekNo = weekNo;
     }
 
-    public int getConsumption() {
-        return consumption;
+    public double getConsumptionPlanned() {
+        return consumptionPlanned;
     }
 
-    public void setConsumption(int consumption) {
-        this.consumption = consumption;
+    public void setConsumptionPlanned(double consumptionPlanned) {
+        this.consumptionPlanned = consumptionPlanned;
+    }
+
+    public double getConsumptionActual() {
+        return consumptionActual;
+    }
+
+    public void setConsumptionActual(double consumptionActual) {
+        this.consumptionActual = consumptionActual;
     }
 
     public Date getConsumptionDate() {
@@ -52,6 +68,14 @@ public class EConsumption {
 
     public void setConsumptionDate(Date consumptionDate) {
         this.consumptionDate = consumptionDate;
+    }
+
+    public Date getConsumptionPlannedDate() {
+        return consumptionPlannedDate;
+    }
+
+    public void setConsumptionPlannedDate(Date consumptionPlannedDate) {
+        this.consumptionPlannedDate = consumptionPlannedDate;
     }
 
     private Date getDate() {
