@@ -8,25 +8,24 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-public class ForumAnswer {
+public class CustomerCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String username;
-    private String answer;
+    private String name;
+
+    @OneToMany(mappedBy = "customerCategory", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("customerCategory")
+    private List<CustomerCategoryPrice> customerCategoryPrices;
 
     @JsonFormat(pattern = "dd-MM-yyyy hh:mm:ss", timezone = "Asia/Colombo")
     private Date createdDate;
 
-    @ManyToOne
-    @JoinColumn
-    @JsonIgnoreProperties("forumAnswers")
-    private ForumQuestion forumQuestion;
-
-    public ForumAnswer() {
+    public CustomerCategory() {
         this.createdDate = getDate();
     }
 
@@ -38,20 +37,21 @@ public class ForumAnswer {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAnswer() {
-        return answer;
+    public void setCustomerCategoryPrices(List<CustomerCategoryPrice> customerCategoryPrices) {
+        this.customerCategoryPrices = customerCategoryPrices;
+        this.customerCategoryPrices.forEach(customerCategoryPrice -> customerCategoryPrice.setCustomerCategory(this));
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public List<CustomerCategoryPrice> getCustomerCategoryPrices() {
+        return customerCategoryPrices;
     }
 
     public Date getCreatedDate() {
@@ -60,14 +60,6 @@ public class ForumAnswer {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public ForumQuestion getForumQuestion() {
-        return forumQuestion;
-    }
-
-    public void setForumQuestion(ForumQuestion forumQuestion) {
-        this.forumQuestion = forumQuestion;
     }
 
     private Date getDate() {
@@ -88,5 +80,4 @@ public class ForumAnswer {
 
         return newDate;
     }
-
 }

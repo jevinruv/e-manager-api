@@ -2,9 +2,7 @@ package com.sayuri.emanagerapi.controller;
 
 import com.sayuri.emanagerapi.form.PredictionForm;
 import com.sayuri.emanagerapi.model.Prediction;
-import com.sayuri.emanagerapi.model.User;
 import com.sayuri.emanagerapi.repository.PredictionRepo;
-import com.sayuri.emanagerapi.repository.UserRepo;
 import com.sayuri.emanagerapi.service.PredictionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
