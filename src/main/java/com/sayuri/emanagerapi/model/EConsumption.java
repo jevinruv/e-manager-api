@@ -17,13 +17,12 @@ public class EConsumption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String frequency;
     private double consumptionPlanned;
     private double consumptionActual;
     private double consumptionPlannedCost;
     private double consumptionActualCost;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Colombo")
+    @JsonFormat(pattern = "yyyy-MM", timezone = "Asia/Colombo")
     private Date consumptionDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Colombo")
@@ -39,14 +38,6 @@ public class EConsumption {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(String frequency) {
-        this.frequency = frequency;
     }
 
     public double getConsumptionPlanned() {
