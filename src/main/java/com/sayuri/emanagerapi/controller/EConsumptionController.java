@@ -36,7 +36,11 @@ public class EConsumptionController {
 
     @PostMapping
     public ResponseEntity<?> addOrUpdate(@RequestBody EConsumption eConsumption) {
-        EConsumption eConsumptionSaved = service.addOrSave(eConsumption);
+        Optional<EConsumption> consumptionFound = repo.findByConsumptionDate(eConsumption.getConsumptionDate());
+        if(consumptionFound.isPresent())
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+
+        EConsumption eConsumptionSaved = repo.save(eConsumption);
         return new ResponseEntity<>(eConsumptionSaved, HttpStatus.OK);
     }
 
