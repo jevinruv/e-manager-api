@@ -1,6 +1,9 @@
 package com.sayuri.emanagerapi.controller;
 
+import com.sayuri.emanagerapi.form.ConsumptionCalculateForm;
+import com.sayuri.emanagerapi.form.PredictionForm;
 import com.sayuri.emanagerapi.model.EConsumption;
+import com.sayuri.emanagerapi.model.Prediction;
 import com.sayuri.emanagerapi.repository.EConsumptionRepo;
 import com.sayuri.emanagerapi.service.EConsumptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +45,9 @@ public class EConsumptionController {
         repo.deleteById(id);
     }
 
+    @PostMapping("/consumption-calculate")
+    public ResponseEntity<?> consumptionCalculate(@RequestBody ConsumptionCalculateForm consumptionCalculateForm) {
+        double consumption = service.calculate(consumptionCalculateForm.getCustomerCategoryId(), consumptionCalculateForm.getConsumptionValue());
+        return new ResponseEntity<>(consumption, HttpStatus.OK);
+    }
 }

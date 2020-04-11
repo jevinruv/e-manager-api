@@ -15,7 +15,9 @@ public class CustomerCategoryPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String consumptionValue;
+    private int rangeId;
+    private double consumptionRangeStart;
+    private double consumptionRangeStop;
     private double energyCharge;
     private double fixedCharge;
     private double fuelAdjustmentCharge;
@@ -40,12 +42,28 @@ public class CustomerCategoryPrice {
         this.id = id;
     }
 
-    public String getConsumptionValue() {
-        return consumptionValue;
+    public int getRangeId() {
+        return rangeId;
     }
 
-    public void setConsumptionValue(String consumptionValue) {
-        this.consumptionValue = consumptionValue;
+    public void setRangeId(int rangeId) {
+        this.rangeId = rangeId;
+    }
+
+    public double getConsumptionRangeStart() {
+        return consumptionRangeStart;
+    }
+
+    public void setConsumptionRangeStart(double consumptionRangeStart) {
+        this.consumptionRangeStart = consumptionRangeStart;
+    }
+
+    public double getConsumptionRangeStop() {
+        return consumptionRangeStop;
+    }
+
+    public void setConsumptionRangeStop(double consumptionRangeStop) {
+        this.consumptionRangeStop = consumptionRangeStop;
     }
 
     public double getEnergyCharge() {
@@ -88,7 +106,11 @@ public class CustomerCategoryPrice {
         this.customerCategory = customerCategory;
     }
 
-    private Date getDate() {
+    public void setCurrentDate(){
+        this.reviewedDate = this.getDate();
+    }
+
+    public Date getDate() {
 
         Date date = new Date();
 

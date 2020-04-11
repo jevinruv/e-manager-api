@@ -17,7 +17,7 @@ public class EConsumption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int weekNo;
+    private String frequency;
     private double consumptionPlanned;
     private double consumptionActual;
     private double consumptionPlannedCost;
@@ -41,12 +41,12 @@ public class EConsumption {
         this.id = id;
     }
 
-    public int getWeekNo() {
-        return weekNo;
+    public String getFrequency() {
+        return frequency;
     }
 
-    public void setWeekNo(int weekNo) {
-        this.weekNo = weekNo;
+    public void setFrequency(String frequency) {
+        this.frequency = frequency;
     }
 
     public double getConsumptionPlanned() {
