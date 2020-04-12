@@ -4,4 +4,6 @@ VALUES
 ('Tom Riddle', 'tom', 'tom@gmail.com', 'qwerty', 'NORMAL');
 
 INSERT INTO common_value (key, value)
-VALUES ('kWh', '150');
+VALUES
+('email-to', 'tashi.kaladin@iillii.org,quavis88@discretevtd.com'),
+('kWh', '150');

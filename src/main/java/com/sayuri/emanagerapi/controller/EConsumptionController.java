@@ -1,6 +1,7 @@
 package com.sayuri.emanagerapi.controller;
 
 import com.sayuri.emanagerapi.form.ConsumptionCalculateForm;
+import com.sayuri.emanagerapi.form.ConsumptionEmailForm;
 import com.sayuri.emanagerapi.form.PredictionForm;
 import com.sayuri.emanagerapi.model.EConsumption;
 import com.sayuri.emanagerapi.model.Prediction;
@@ -36,11 +37,10 @@ public class EConsumptionController {
 
     @PostMapping
     public ResponseEntity<?> addOrUpdate(@RequestBody EConsumption eConsumption) {
-        Optional<EConsumption> consumptionFound = repo.findByConsumptionDate(eConsumption.getConsumptionDate());
-        if(eConsumption.getId() == 0 && consumptionFound.isPresent())
+        EConsumption eConsumptionSaved = service.addOrUpdate(eConsumption);
+        if(eConsumptionSaved == null)
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
 
-        EConsumption eConsumptionSaved = repo.save(eConsumption);
         return new ResponseEntity<>(eConsumptionSaved, HttpStatus.OK);
     }
 
@@ -54,4 +54,11 @@ public class EConsumptionController {
         double consumption = service.calculate(consumptionCalculateForm.getCustomerCategoryId(), consumptionCalculateForm.getConsumptionValue());
         return new ResponseEntity<>(consumption, HttpStatus.OK);
     }
+
+//    @GetMapping("/email")
+//    public void mail(@RequestBody ConsumptionEmailForm consumptionEmailForm) {
+//        service.sendEmail(consumptionEmailForm);
+//    }
+
+
 }
