@@ -15,7 +15,12 @@ public class CommonValueController {
     @Autowired
     private CommonValueRepo repo;
 
-    @GetMapping("/{key}")
+    @GetMapping("/{id}")
+    public Optional<CommonValue> get(@PathVariable int id) {
+        return repo.findById(id);
+    }
+
+    @GetMapping("/key/{key}")
     public Optional<CommonValue> get(@PathVariable String key) {
         return repo.findByKey(key);
     }
