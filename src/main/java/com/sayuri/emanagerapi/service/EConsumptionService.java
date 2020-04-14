@@ -1,13 +1,11 @@
 package com.sayuri.emanagerapi.service;
 
 import com.sayuri.emanagerapi.form.ConsumptionEmailForm;
-import com.sayuri.emanagerapi.model.CommonValue;
-import com.sayuri.emanagerapi.model.CustomerCategory;
-import com.sayuri.emanagerapi.model.CustomerCategoryPrice;
-import com.sayuri.emanagerapi.model.EConsumption;
+import com.sayuri.emanagerapi.model.*;
 import com.sayuri.emanagerapi.repository.CommonValueRepo;
 import com.sayuri.emanagerapi.repository.CustomerCategoryRepo;
 import com.sayuri.emanagerapi.repository.EConsumptionRepo;
+import com.sayuri.emanagerapi.repository.MileStoneRepo;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -36,6 +34,9 @@ public class EConsumptionService {
     @Autowired
     CommonValueRepo commonValueRepo;
 
+    @Autowired
+    MileStoneRepo mileStoneRepo;
+
     public EConsumption addOrUpdate(EConsumption eConsumption) {
 
         Optional<EConsumption> consumptionFound = repo.findByConsumptionDate(eConsumption.getConsumptionDate());
@@ -43,6 +44,8 @@ public class EConsumptionService {
             return null;
 
         EConsumption consumptionSaved = repo.save(eConsumption);
+
+        mileStoneHandler(eConsumption);
 
         if(eConsumption.getConsumptionActualCost() > eConsumption.getConsumptionPlannedCost()){
             sendEmail(eConsumption);
@@ -108,6 +111,31 @@ public class EConsumptionService {
         msg.setSubject(subject);
         msg.setText(message);
         javaMailSender.send(msg);
+    }
+
+    private MileStone mileStoneHandler(EConsumption eConsumption){
+
+      MileStone mileStone = new MileStone();
+      Optional<MileStone> mileStoneOptional = mileStoneRepo.findByMileStoneDate(eConsumption.getConsumptionDate());
+
+      if(mileStoneOptional.isPresent()){
+          mileStone = mileStoneOptional.get();
+          mileStone.setActual(eConsumption.getConsumptionActual());
+
+          if(eConsumption.getConsumptionActual() > eConsumption.getConsumptionPlanned()){
+            mileStone.setStatus("NOTACHIEVED");
+          }
+          else{
+              mileStone.setStatus("ACHIEVED");
+          }
+      }
+      else{
+          mileStone.setMileStoneDate(eConsumption.getConsumptionDate());
+          mileStone.setPlanned(eConsumption.getConsumptionPlanned());
+          mileStone.seteConsumptionId(eConsumption.getId());
+      }
+
+        return mileStoneRepo.save(mileStone);
     }
 
     public void sendEmailWithAttachment(String[] emailTo, String subject, String message, String imageValue) {
