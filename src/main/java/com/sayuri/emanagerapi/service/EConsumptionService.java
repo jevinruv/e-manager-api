@@ -1,6 +1,5 @@
 package com.sayuri.emanagerapi.service;
 
-import com.sayuri.emanagerapi.form.ConsumptionEmailForm;
 import com.sayuri.emanagerapi.model.*;
 import com.sayuri.emanagerapi.repository.CommonValueRepo;
 import com.sayuri.emanagerapi.repository.CustomerCategoryRepo;
@@ -127,6 +126,12 @@ public class EConsumptionService {
           }
           else{
               mileStone.setStatus("ACHIEVED");
+
+              int points = Integer.parseInt(commonValueRepo.findByKey("points").get().getValue());
+              CommonValue score = commonValueRepo.findByKey("score").get();
+              int newScore = Integer.parseInt(score.getValue()) + points;
+              score.setValue(String.valueOf(newScore));
+              commonValueRepo.save(score);
           }
       }
       else{
