@@ -1,5 +1,6 @@
 package com.sayuri.emanagerapi.controller;
 
+import com.sayuri.emanagerapi.model.EConsumption;
 import com.sayuri.emanagerapi.model.User;
 import com.sayuri.emanagerapi.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,11 @@ public class UserController {
 
     @PostMapping
     public User addOrUpdate(@RequestBody User user) {
+
+        Optional<User> userFound = repo.findByEmail(user.getEmail());
+        if (user.getId() == 0 && userFound.isPresent())
+            return null;
+
         return repo.save(user);
     }
 
@@ -39,7 +45,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user){
-        Optional<User> signedUser = repo.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        Optional<User> signedUser = repo.findByEmailAndPassword(user.getEmail(), user.getPassword());
         return new ResponseEntity<>(signedUser, HttpStatus.OK);
     }
 }
