@@ -1,5 +1,7 @@
 package com.sayuri.emanagerapi.service;
 
+import com.sayuri.emanagerapi.form.ConsumptionCalculateForm;
+import com.sayuri.emanagerapi.form.ConsumptionCalculateResponse;
 import com.sayuri.emanagerapi.model.*;
 import com.sayuri.emanagerapi.repository.CommonValueRepo;
 import com.sayuri.emanagerapi.repository.CustomerCategoryRepo;
@@ -53,11 +55,11 @@ public class EConsumptionService {
         return consumptionSaved;
     }
 
-    public double calculate(int customerCategoryId, double consumptionValue) {
+    public ConsumptionCalculateResponse calculate(int customerCategoryId, double consumptionValue) {
 
         Optional<CustomerCategory> customerCategoryOptional = customerCategoryRepo.findById(customerCategoryId);
 
-        if (!customerCategoryOptional.isPresent()) return 0;
+        if (!customerCategoryOptional.isPresent()) return null;
 
         CustomerCategory customerCategory = customerCategoryOptional.get();
 
@@ -71,7 +73,7 @@ public class EConsumptionService {
                 .filter(isWithinStart.and(isWithinStop))
                 .findFirst();
 
-        if (!customerCategoryPriceOptional.isPresent()) return 0;
+        if (!customerCategoryPriceOptional.isPresent()) return null;
 
         CustomerCategoryPrice customerCategoryPrice = customerCategoryPriceOptional.get();
 
@@ -81,7 +83,11 @@ public class EConsumptionService {
         double total = 0;
         total = fixedCharge + fuelAdjustmentCharge + (energyCharge * consumptionValue);
 
-        return total;
+        ConsumptionCalculateResponse calculateResponse = new ConsumptionCalculateResponse();
+        calculateResponse.setTotal(total);
+        calculateResponse.setCustomerCategoryPrice(customerCategoryPrice);
+
+        return calculateResponse;
     }
 
     public void sendEmail(EConsumption eConsumption) {

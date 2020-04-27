@@ -1,6 +1,7 @@
 package com.sayuri.emanagerapi.controller;
 
 import com.sayuri.emanagerapi.form.ConsumptionCalculateForm;
+import com.sayuri.emanagerapi.form.ConsumptionCalculateResponse;
 import com.sayuri.emanagerapi.form.ConsumptionEmailForm;
 import com.sayuri.emanagerapi.form.PredictionForm;
 import com.sayuri.emanagerapi.model.EConsumption;
@@ -51,14 +52,8 @@ public class EConsumptionController {
 
     @PostMapping("/consumption-calculate")
     public ResponseEntity<?> consumptionCalculate(@RequestBody ConsumptionCalculateForm consumptionCalculateForm) {
-        double consumption = service.calculate(consumptionCalculateForm.getCustomerCategoryId(), consumptionCalculateForm.getConsumptionValue());
-        return new ResponseEntity<>(consumption, HttpStatus.OK);
+        ConsumptionCalculateResponse calculateResponse = service.calculate(consumptionCalculateForm.getCustomerCategoryId(), consumptionCalculateForm.getConsumptionValue());
+        return new ResponseEntity<>(calculateResponse, HttpStatus.OK);
     }
-
-//    @GetMapping("/email")
-//    public void mail(@RequestBody ConsumptionEmailForm consumptionEmailForm) {
-//        service.sendEmail(consumptionEmailForm);
-//    }
-
-
+    
 }
