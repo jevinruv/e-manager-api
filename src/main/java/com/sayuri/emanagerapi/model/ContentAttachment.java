@@ -10,6 +10,8 @@ public class ContentAttachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(columnDefinition="TEXT")
     private String image;
 
     @ManyToOne
