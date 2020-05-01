@@ -1,7 +1,7 @@
-INSERT INTO users (name, email, password, type)
+INSERT INTO users (first_name, last_name, email, password, type)
 VALUES
-('Admin', 'admin@gmail.com', 'admin', 'ADMIN'),
-('Tom Riddle', 'tom@gmail.com', 'qwerty', 'NORMAL');
+('Admin', 'Admin', 'admin@gmail.com', 'admin', 'ADMIN'),
+('Tom', 'Riddle', 'tom@gmail.com', 'qwerty', 'NORMAL');
 
 INSERT INTO common_value (key, value)
 VALUES
