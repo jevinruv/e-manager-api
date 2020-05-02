@@ -4,6 +4,7 @@ public class ConsumptionCalculateForm {
 
     private int customerCategoryId;
     private double consumptionValue;
+    private double maxDemandValue;
 
     public int getCustomerCategoryId() {
         return customerCategoryId;
@@ -19,5 +20,13 @@ public class ConsumptionCalculateForm {
 
     public void setConsumptionValue(double consumptionValue) {
         this.consumptionValue = consumptionValue;
+    }
+
+    public double getMaxDemandValue() {
+        return maxDemandValue;
+    }
+
+    public void setMaxDemandValue(double maxDemandValue) {
+        this.maxDemandValue = maxDemandValue;
     }
 }

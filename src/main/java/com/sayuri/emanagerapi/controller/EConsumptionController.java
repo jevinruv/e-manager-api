@@ -52,7 +52,11 @@ public class EConsumptionController {
 
     @PostMapping("/consumption-calculate")
     public ResponseEntity<?> consumptionCalculate(@RequestBody ConsumptionCalculateForm consumptionCalculateForm) {
-        ConsumptionCalculateResponse calculateResponse = service.calculate(consumptionCalculateForm.getCustomerCategoryId(), consumptionCalculateForm.getConsumptionValue());
+        ConsumptionCalculateResponse calculateResponse = service.calculate(
+                consumptionCalculateForm.getCustomerCategoryId(),
+                consumptionCalculateForm.getConsumptionValue(),
+                consumptionCalculateForm.getMaxDemandValue());
+        
         return new ResponseEntity<>(calculateResponse, HttpStatus.OK);
     }
     

@@ -55,7 +55,7 @@ public class EConsumptionService {
         return consumptionSaved;
     }
 
-    public ConsumptionCalculateResponse calculate(int customerCategoryId, double consumptionValue) {
+    public ConsumptionCalculateResponse calculate(int customerCategoryId, double consumptionValue, double maxDemandValue) {
 
         Optional<CustomerCategory> customerCategoryOptional = customerCategoryRepo.findById(customerCategoryId);
 
@@ -80,8 +80,9 @@ public class EConsumptionService {
         double energyCharge = customerCategoryPrice.getEnergyCharge();
         double fixedCharge = customerCategoryPrice.getFixedCharge();
         double fuelAdjustmentCharge = customerCategoryPrice.getFuelAdjustmentCharge();
+        double maxDemandCharge = customerCategoryPrice.getMaxDemandCharge();
         double total = 0;
-        total = fixedCharge + fuelAdjustmentCharge + (energyCharge * consumptionValue);
+        total = fixedCharge + fuelAdjustmentCharge + (energyCharge * consumptionValue) + (maxDemandCharge * maxDemandValue);
 
         ConsumptionCalculateResponse calculateResponse = new ConsumptionCalculateResponse();
         calculateResponse.setTotal(total);
