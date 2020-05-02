@@ -21,6 +21,7 @@ public class CustomerCategoryPrice {
     private double energyCharge;
     private double fixedCharge;
     private double fuelAdjustmentCharge;
+    private double maxDemandCharge;
 
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone = "Asia/Colombo")
     private Date reviewedDate;
@@ -108,6 +109,14 @@ public class CustomerCategoryPrice {
 
     public void setCurrentDate(){
         this.reviewedDate = this.getDate();
+    }
+
+    public double getMaxDemandCharge() {
+        return maxDemandCharge;
+    }
+
+    public void setMaxDemandCharge(double maxDemandCharge) {
+        this.maxDemandCharge = maxDemandCharge;
     }
 
     public Date getDate() {
