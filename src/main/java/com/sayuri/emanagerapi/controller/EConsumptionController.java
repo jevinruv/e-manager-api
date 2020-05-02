@@ -56,7 +56,7 @@ public class EConsumptionController {
                 consumptionCalculateForm.getCustomerCategoryId(),
                 consumptionCalculateForm.getConsumptionValue(),
                 consumptionCalculateForm.getMaxDemandValue());
-        
+
         return new ResponseEntity<>(calculateResponse, HttpStatus.OK);
     }
     
